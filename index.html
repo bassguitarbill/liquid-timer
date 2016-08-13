@@ -17,15 +17,16 @@
 			
 			
 			var tick = function() {
-				console.log(currentPauseLength, pausedTime, Date.now())
 				currentPauseLength = pausedTime ? (Date.now() - pausedTime) : 0;
 				var timePassed = stopped ? 0 : (Date.now() - initialTime - currentPauseLength - totalPauseLength);
 				$(".normalColor").css("height", ((timePassed / totalTime) * maxHeight) + "px");
 				var timeLeft = totalTime - timePassed;
 				var hoursLeft = Math.floor(timeLeft / (60 * 60 * 1000));
 				var minutesLeft = Math.floor(timeLeft / (60 * 1000)) - (hoursLeft * 60);
+				var secondsLeft = Math.floor(timeLeft / 1000) - (hoursLeft * 60 * 60) - (minutesLeft * 60);
 				$(".hoursNum").text(hoursLeft);
 				$(".minutesNum").text(minutesLeft);
+				$(".secondsNum").text(secondsLeft);
 				$(".isPaused").text(paused ? "PAUSE" : "PLAY");
 			}
 			tick();
@@ -54,12 +55,16 @@
 				<div class="hoursLabel">Hours</div>
 				<div class="minutesNum">58</div>
 				<div class="minutesLabel">Minutes</div>
+				<div class="secondsNum">58</div>
+				<div class="secondsLabel">Seconds</div>
 			</div>
 			<div class="inverseColor">
 				<div class="hoursNum">11</div>
 				<div class="hoursLabel">Hours</div>
 				<div class="minutesNum">58</div>
 				<div class="minutesLabel">Minutes</div>
+				<div class="secondsNum">58</div>
+				<div class="secondsLabel">Seconds</div>
 			</div>
 		</div>
 		<div class="buttonPanel">
@@ -84,13 +89,13 @@
 			text-align: center;
 		}
 		
-		.hoursNum,.minutesNum {
-			padding-top: 100px;
+		.hoursNum,.minutesNum,.secondsNum {
+			padding-top: 70px;
 			font-size: 4em;
 		}
 		
-		.hoursLabel,.minutesLabel {
-			padding-top: 40px;
+		.hoursLabel,.minutesLabel,.secondsLabel {
+			padding-top: 30px;
 			font-size: 2em;
 		}
 	
