@@ -1,0 +1,8 @@
+{
+	"name": "timer",
+	"main": "index.html",
+	"window": {
+		"width": 152,
+		"height": 720
+	}
+}

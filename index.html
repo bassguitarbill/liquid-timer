@@ -1,0 +1,142 @@
+<html>
+	<head>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js">
+			
+
+		</script>
+		<script>
+		$(function(){
+			var maxHeight = $(".inverseColor")[0].offsetHeight;
+			var initialTime = 0;
+			var pausedTime = 0;
+			var currentPauseLength = 0;
+			var totalPauseLength = 0;
+			var stopped = true;
+			var paused = true;
+			const totalTime =  12 * 60 * 60 * 1000;
+			
+			
+			var tick = function() {
+				console.log(currentPauseLength, pausedTime, Date.now())
+				currentPauseLength = pausedTime ? (Date.now() - pausedTime) : 0;
+				var timePassed = stopped ? 0 : (Date.now() - initialTime - currentPauseLength - totalPauseLength);
+				$(".normalColor").css("height", ((timePassed / totalTime) * maxHeight) + "px");
+				var timeLeft = totalTime - timePassed;
+				var hoursLeft = Math.floor(timeLeft / (60 * 60 * 1000));
+				var minutesLeft = Math.floor(timeLeft / (60 * 1000)) - (hoursLeft * 60);
+				$(".hoursNum").text(hoursLeft);
+				$(".minutesNum").text(minutesLeft);
+				$(".isPaused").text(paused ? "PAUSE" : "PLAY");
+			}
+			tick();
+			setInterval(tick, 100);
+			
+			$("#playButton").click(function() {
+				initialTime = initialTime ? initialTime : Date.now();
+				pausedTime = 0;
+				totalPauseLength += currentPauseLength;
+				currentPauseLength = 0;
+				stopped = false;
+				paused = false;
+			});
+			
+			$("#pauseButton").click(function() {
+				pausedTime = pausedTime ? pausedTime : Date.now();
+				paused = true;
+			});
+		});
+	</script>
+	</head>
+	<body>
+		<div id="timer">
+			<div class="normalColor">
+				<div class="hoursNum">11</div>
+				<div class="hoursLabel">Hours</div>
+				<div class="minutesNum">58</div>
+				<div class="minutesLabel">Minutes</div>
+			</div>
+			<div class="inverseColor">
+				<div class="hoursNum">11</div>
+				<div class="hoursLabel">Hours</div>
+				<div class="minutesNum">58</div>
+				<div class="minutesLabel">Minutes</div>
+			</div>
+		</div>
+		<div class="buttonPanel">
+			<div id="pauseButton">||</div>
+			<div id="playButton">|></div>
+			<div class="isPaused"></div>
+		</div>
+	</body>
+	<style>
+		body {
+			margin: 0px;
+			border: 2px solid #666;
+			font-family: "Crystal";
+		}
+		
+		@font-face {
+			font-family: "Crystal";
+			src: local("CRYSTAL Regular");
+		}
+		
+		#timer div {
+			text-align: center;
+		}
+		
+		.hoursNum,.minutesNum {
+			padding-top: 100px;
+			font-size: 4em;
+		}
+		
+		.hoursLabel,.minutesLabel {
+			padding-top: 40px;
+			font-size: 2em;
+		}
+	
+		.normalColor,
+		.inverseColor {
+			position: absolute;
+			width: 148px;
+			height: 716px;
+		}
+		
+		.normalColor {
+			color: #000;
+			background-color: #FFF;
+			height: 0px;
+			z-index: 2;
+			overflow: hidden;
+			text-overflow: clip;
+			white-space: nowrap;
+		}
+		
+		.inverseColor {
+			color: #FFF;
+			background-color: #000;
+			z-index: 1;
+		}
+		
+		#timer {
+			//transform: rotate(270deg);
+		}
+		
+		.buttonPanel {
+			visibility: hidden;
+			position: absolute;
+			z-index: 4;
+			background-color: #AAA;
+			color: #F00;
+		}
+		
+		body:hover > .buttonPanel {
+			visibility: visible;
+		}
+		
+		.buttonPanel>div {
+			display: inline-block;
+			margin: 10px;
+		}
+		
+	</style>
+</html>
