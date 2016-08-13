@@ -1,0 +1,1 @@
+A big ol' timer that drains as it counts down. Run it with nw.js.
